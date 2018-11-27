@@ -2552,6 +2552,19 @@ metadata:
   name: prometheus-core
   namespace: monitoring
 ---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: io1-retain-us-east-1a
+provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Retain
+parameters:
+  type: io1
+  zone: us-east-1a
+  fsType: ext4
+  # ex: 10 GiB volume x 10 iopsPerGB = 100 IOPS total (20,000 max)
+  iopsPerGB: "20"
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:

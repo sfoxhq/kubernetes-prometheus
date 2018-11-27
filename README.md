@@ -89,6 +89,39 @@ See grafana.net for some example [dashboards](https://grafana.net/dashboards) an
   - `Prometheus`: `prometheus`
   - `Save & Open`
 
+## Manifest Outputs
+
+Cleanup is straightforward but some resources may persist since they aren't namespaced.
+The list of outputs is included for convenience of auditing.
+
+```
+namespace "monitoring" created
+clusterrolebinding.rbac.authorization.k8s.io "prometheus" created
+clusterrole.rbac.authorization.k8s.io "prometheus" created
+serviceaccount "prometheus-k8s" created
+configmap "alertmanager-templates" created
+configmap "alertmanager" created
+deployment.extensions "alertmanager" created
+service "alertmanager" created
+deployment.extensions "grafana-core" created
+configmap "grafana-import-dashboards" created
+job.batch "grafana-import-dashboards" created
+secret "grafana" created
+service "grafana" created
+configmap "prometheus-core" created
+deployment.extensions "prometheus-core" created
+deployment.extensions "kube-state-metrics" created
+clusterrolebinding.rbac.authorization.k8s.io "kube-state-metrics" created
+clusterrole.rbac.authorization.k8s.io "kube-state-metrics" created
+serviceaccount "kube-state-metrics" created
+service "kube-state-metrics" created
+daemonset.extensions "node-directory-size-metrics" created
+daemonset.extensions "prometheus-node-exporter" created
+service "prometheus-node-exporter" created
+configmap "prometheus-rules" created
+service "prometheus" created
+```
+
 ## Credit
 
 Alertmanager configs and integration in this repository was heavily inspired by the implementation in [kayrus/prometheus-kubernetes](https://github.com/kayrus/prometheus-kubernetes).

@@ -2565,6 +2565,19 @@ parameters:
   # ex: 10 GiB volume x 10 iopsPerGB = 100 IOPS total (20,000 max)
   iopsPerGB: "20"
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prometheus-volumeclaim
+  annotations:
+    volume.beta.kubernetes.io/storage-class: io1-retain-us-east-1a
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:

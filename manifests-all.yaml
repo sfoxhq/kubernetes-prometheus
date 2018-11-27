@@ -2600,6 +2600,11 @@ spec:
       - name: rules-volume
         configMap:
           name: prometheus-rules
+      tolerations:
+      - key: monitoring
+        operator: Equal
+        value: prometheus
+        effect: NoSchedule
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

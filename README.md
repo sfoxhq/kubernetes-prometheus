@@ -89,6 +89,31 @@ See grafana.net for some example [dashboards](https://grafana.net/dashboards) an
   - `Prometheus`: `prometheus`
   - `Save & Open`
 
+## What metrics are exposed?
+Each component in the system has different metrics you can explore by prefix. Refer
+to documentation for each exporter for a comprehensive list of exposed metrics.
+
+**cadvisor**
+- `container_`
+- `machine_`
+
+**prometheus**
+- `go_`
+- `http_request_`
+- `http_response_`
+- `process_`
+- `prometheus_`
+
+**kube-state-metrics**: metrics about the state of kubernetes objects
+- `kube_`
+
+**prometheus-node-exporter**: host-level metrics
+- `node_`
+- `process_`
+
+**node-directory-size-metrics**: metrics about disk usage on the nodes
+- `node_directory_size_bytes`
+
 ## Manifest Outputs
 
 Cleanup is straightforward but some resources may persist since they aren't namespaced.

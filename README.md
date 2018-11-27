@@ -116,35 +116,45 @@ to documentation for each exporter for a comprehensive list of exposed metrics.
 
 ## Manifest Outputs
 
-Cleanup is straightforward but some resources may persist since they aren't namespaced.
-The list of outputs is included for convenience of auditing.
+The list of outputs is included for convenient auditing.
 
 ```
 namespace "monitoring" created
-clusterrolebinding.rbac.authorization.k8s.io "prometheus" created
-clusterrole.rbac.authorization.k8s.io "prometheus" created
-serviceaccount "prometheus-k8s" created
-configmap "alertmanager-templates" created
-configmap "alertmanager" created
-deployment.extensions "alertmanager" created
-service "alertmanager" created
-deployment.extensions "grafana-core" created
-configmap "grafana-import-dashboards" created
-job.batch "grafana-import-dashboards" created
-secret "grafana" created
-service "grafana" created
-configmap "prometheus-core" created
-deployment.extensions "prometheus-core" created
-deployment.extensions "kube-state-metrics" created
-clusterrolebinding.rbac.authorization.k8s.io "kube-state-metrics" created
 clusterrole.rbac.authorization.k8s.io "kube-state-metrics" created
-serviceaccount "kube-state-metrics" created
-service "kube-state-metrics" created
+clusterrole.rbac.authorization.k8s.io "prometheus" created
+clusterrolebinding.rbac.authorization.k8s.io "kube-state-metrics" created
+clusterrolebinding.rbac.authorization.k8s.io "prometheus" created
+configmap "alertmanager" created
+configmap "alertmanager-templates" created
+configmap "grafana-import-dashboards" created
+configmap "prometheus-core" created
+configmap "prometheus-rules" created
 daemonset.extensions "node-directory-size-metrics" created
 daemonset.extensions "prometheus-node-exporter" created
-service "prometheus-node-exporter" created
-configmap "prometheus-rules" created
+deployment.extensions "alertmanager" created
+deployment.extensions "grafana-core" created
+deployment.extensions "kube-state-metrics" created
+deployment.extensions "prometheus-core" created
+job.batch "grafana-import-dashboards" created
+persistentvolumeclaim "prometheus-volumeclaim" unchanged
+secret "grafana" created
+service "alertmanager" created
+service "grafana" created
+service "kube-state-metrics" created
 service "prometheus" created
+service "prometheus-node-exporter" created
+serviceaccount "kube-state-metrics" created
+serviceaccount "prometheus-k8s" created
+storageclass.storage.k8s.io "io1-retain-us-east-1a" created
+```
+
+These resources persist after cleanup since they aren't namespaced. Remove them manually.
+
+```
+clusterrole.rbac.authorization.k8s.io "kube-state-metrics" created
+clusterrole.rbac.authorization.k8s.io "prometheus" created
+clusterrolebinding.rbac.authorization.k8s.io "kube-state-metrics" created
+clusterrolebinding.rbac.authorization.k8s.io "prometheus" created
 ```
 
 ## Credit

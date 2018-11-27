@@ -27,7 +27,7 @@ spec:
 ```
 
 Ensure the instance group is created, then ensure `nodeLabels` and `taints` properties
-conform to the example per environment. 
+conform to the example per cluster.
 
 ## Quick start
 

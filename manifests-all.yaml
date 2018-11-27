@@ -2605,6 +2605,15 @@ spec:
         operator: Equal
         value: prometheus
         effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kops.k8s.io/instancegroup
+                operator: In
+                values:
+                - "monitoring"
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

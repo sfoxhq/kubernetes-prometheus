@@ -1,5 +1,34 @@
 # Kubernetes Setup for Prometheus and Grafana
 
+## SFOX Prerequisite
+Our in-house version places prometheus server onto a dedicated monitoring node in
+our kubernetes clusters. The node is automated via a kops instance group as
+follows:
+
+```
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: kops-test-us-east-1.k8s.local
+  name: monitoring
+spec:
+  image: ami-43a15f3e
+  machineType: t2.medium
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: monitoring
+  role: Node
+  subnets:
+  - us-east-1a
+  taints:
+  - monitoring=prometheus:NoSchedule
+```
+
+Ensure the instance group is created, then ensure `nodeLabels` and `taints` properties
+conform to the example per environment. 
+
 ## Quick start
 
 To quickly start all the things just do this:

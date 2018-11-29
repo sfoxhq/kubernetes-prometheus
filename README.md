@@ -91,7 +91,7 @@ See grafana.net for some example [dashboards](https://grafana.net/dashboards) an
 
 ## What metrics are exposed?
 Each component in the system has different metrics you can explore by prefix. Refer
-to documentation for each exporter for a comprehensive list of exposed metrics.
+to [architecture documentation](README-architecture.md) for each exporter for a comprehensive list of exposed metrics.
 
 **cadvisor**
 - `container_`

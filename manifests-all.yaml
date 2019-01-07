@@ -2600,8 +2600,10 @@ spec:
       containers:
       - name: prometheus
         image: prom/prometheus:v1.7.0
+        # set max ram relative to 2/3 of a t2.medium's 4gb ram (specified in bytes)
+        # adjust this value depending on the node's ram
         args:
-          - '-storage.local.memory-chunks=500000'
+          - `-storage.local.target-heap-size=2850000000`
           - '-config.file=/etc/prometheus/prometheus.yaml'
           - '-alertmanager.url=http://alertmanager:9093/'
         ports:

@@ -459,6 +459,11 @@ spec:
         emptyDir: {}
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: grafana-import-dashboards
+  namespace: monitoring
 data:
   grafana-net-2-dashboard.json: |
     {
@@ -1925,7 +1930,7 @@ data:
           "stack": false,
           "steppedLine": false,
           "targets": [{
-            "expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by (pod_name)",
+            "expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^ip-.*\"}[1m])) by (pod_name)",
             "interval": "",
             "intervalFactor": 2,
             "legendFormat": "{{ pod_name }}",
@@ -2293,11 +2298,679 @@ data:
       "access": "proxy",
       "basicAuth": false
     }
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  name: grafana-import-dashboards
-  namespace: monitoring
+  k8s-deployment-dashboard.json: |
+    {
+      "__inputs": [
+        {
+          "name": "DS_PROMETHEUS",
+          "label": "prometheus",
+          "description": "",
+          "type": "datasource",
+          "pluginId": "prometheus",
+          "pluginName": "Prometheus"
+        }
+      ],
+      "__requires": [
+        {
+          "type": "grafana",
+          "id": "grafana",
+          "name": "Grafana",
+          "version": "4.2.0"
+        },
+        {
+          "type": "panel",
+          "id": "graph",
+          "name": "Graph",
+          "version": ""
+        },
+        {
+          "type": "datasource",
+          "id": "prometheus",
+          "name": "Prometheus",
+          "version": "1.0.0"
+        },
+        {
+          "type": "panel",
+          "id": "singlestat",
+          "name": "Singlestat",
+          "version": ""
+        },
+        {
+          "type": "panel",
+          "id": "table",
+          "name": "Table",
+          "version": ""
+        }
+      ],
+      "annotations": {
+        "list": []
+      },
+      "editable": true,
+      "gnetId": null,
+      "graphTooltip": 0,
+      "hideControls": false,
+      "id": null,
+      "links": [],
+      "rows": [
+        {
+          "collapse": false,
+          "height": "250px",
+          "panels": [
+            {
+              "cacheTimeout": null,
+              "colorBackground": false,
+              "colorValue": false,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "datasource": "${DS_PROMETHEUS}",
+              "format": "none",
+              "gauge": {
+                "maxValue": 100,
+                "minValue": 0,
+                "show": false,
+                "thresholdLabels": false,
+                "thresholdMarkers": true
+              },
+              "id": 1,
+              "interval": null,
+              "links": [],
+              "mappingType": 1,
+              "mappingTypes": [
+                {
+                  "name": "value to text",
+                  "value": 1
+                },
+                {
+                  "name": "range to text",
+                  "value": 2
+                }
+              ],
+              "maxDataPoints": 100,
+              "nullPointMode": "connected",
+              "nullText": null,
+              "postfix": "",
+              "postfixFontSize": "50%",
+              "prefix": "",
+              "prefixFontSize": "50%",
+              "rangeMaps": [
+                {
+                  "from": "null",
+                  "text": "N/A",
+                  "to": "null"
+                }
+              ],
+              "span": 4,
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": false,
+                "lineColor": "rgb(31, 120, 193)",
+                "show": false
+              },
+              "targets": [
+                {
+                  "expr": "sum(kube_deployment_status_replicas_available)",
+                  "intervalFactor": 2,
+                  "refId": "A",
+                  "step": 60
+                }
+              ],
+              "thresholds": "",
+              "title": "Deployments: Total",
+              "type": "singlestat",
+              "valueFontSize": "200%",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ],
+              "valueName": "avg"
+            },
+            {
+              "cacheTimeout": null,
+              "colorBackground": false,
+              "colorValue": false,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "datasource": "${DS_PROMETHEUS}",
+              "format": "none",
+              "gauge": {
+                "maxValue": 56,
+                "minValue": 0,
+                "show": true,
+                "thresholdLabels": false,
+                "thresholdMarkers": true
+              },
+              "id": 2,
+              "interval": null,
+              "links": [],
+              "mappingType": 1,
+              "mappingTypes": [
+                {
+                  "name": "value to text",
+                  "value": 1
+                },
+                {
+                  "name": "range to text",
+                  "value": 2
+                }
+              ],
+              "maxDataPoints": 100,
+              "nullPointMode": "connected",
+              "nullText": null,
+              "postfix": "",
+              "postfixFontSize": "50%",
+              "prefix": "",
+              "prefixFontSize": "50%",
+              "rangeMaps": [
+                {
+                  "from": "null",
+                  "text": "N/A",
+                  "to": "null"
+                }
+              ],
+              "span": 4,
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": false,
+                "lineColor": "rgb(31, 120, 193)",
+                "show": false
+              },
+              "targets": [
+                {
+                  "expr": "count(kube_deployment_status_replicas_available > 0)",
+                  "intervalFactor": 2,
+                  "refId": "A",
+                  "step": 60
+                }
+              ],
+              "thresholds": "",
+              "title": "Deployments: Available",
+              "type": "singlestat",
+              "valueFontSize": "80%",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ],
+              "valueName": "avg"
+            },
+            {
+              "cacheTimeout": null,
+              "colorBackground": false,
+              "colorValue": false,
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "datasource": "${DS_PROMETHEUS}",
+              "format": "none",
+              "gauge": {
+                "maxValue": 56,
+                "minValue": 0,
+                "show": true,
+                "thresholdLabels": false,
+                "thresholdMarkers": true
+              },
+              "id": 3,
+              "interval": null,
+              "links": [],
+              "mappingType": 1,
+              "mappingTypes": [
+                {
+                  "name": "value to text",
+                  "value": 1
+                },
+                {
+                  "name": "range to text",
+                  "value": 2
+                }
+              ],
+              "maxDataPoints": 100,
+              "nullPointMode": "connected",
+              "nullText": null,
+              "postfix": "",
+              "postfixFontSize": "50%",
+              "prefix": "",
+              "prefixFontSize": "50%",
+              "rangeMaps": [
+                {
+                  "from": "null",
+                  "text": "N/A",
+                  "to": "null"
+                }
+              ],
+              "span": 4,
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": false,
+                "lineColor": "rgb(31, 120, 193)",
+                "show": false
+              },
+              "targets": [
+                {
+                  "expr": "count(kube_deployment_status_replicas_available == 0)",
+                  "intervalFactor": 2,
+                  "refId": "A",
+                  "step": 60
+                }
+              ],
+              "thresholds": "",
+              "title": "Deployments: Unavailable",
+              "type": "singlestat",
+              "valueFontSize": "80%",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ],
+              "valueName": "avg"
+            }
+          ],
+          "repeat": null,
+          "repeatIteration": null,
+          "repeatRowId": null,
+          "showTitle": false,
+          "title": "Dashboard Row",
+          "titleSize": "h6"
+        },
+        {
+          "collapse": false,
+          "height": 250,
+          "panels": [
+            {
+              "cacheTimeout": null,
+              "colorBackground": false,
+              "colorValue": false,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "datasource": "${DS_PROMETHEUS}",
+              "format": "none",
+              "gauge": {
+                "maxValue": 100,
+                "minValue": 0,
+                "show": false,
+                "thresholdLabels": false,
+                "thresholdMarkers": true
+              },
+              "id": 5,
+              "interval": null,
+              "links": [],
+              "mappingType": 1,
+              "mappingTypes": [
+                {
+                  "name": "value to text",
+                  "value": 1
+                },
+                {
+                  "name": "range to text",
+                  "value": 2
+                }
+              ],
+              "maxDataPoints": 100,
+              "nullPointMode": "connected",
+              "nullText": null,
+              "postfix": "",
+              "postfixFontSize": "50%",
+              "prefix": "",
+              "prefixFontSize": "50%",
+              "rangeMaps": [
+                {
+                  "from": "null",
+                  "text": "N/A",
+                  "to": "null"
+                }
+              ],
+              "span": 4,
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": false,
+                "lineColor": "rgb(31, 120, 193)",
+                "show": true
+              },
+              "targets": [
+                {
+                  "expr": "count(kube_pod_container_status_ready{namespace=\"default\"})",
+                  "intervalFactor": 2,
+                  "legendFormat": "",
+                  "refId": "A",
+                  "step": 60
+                }
+              ],
+              "thresholds": "",
+              "title": "Pods: Total",
+              "type": "singlestat",
+              "valueFontSize": "80%",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ],
+              "valueName": "avg"
+            },
+            {
+              "cacheTimeout": null,
+              "colorBackground": false,
+              "colorValue": false,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "datasource": "${DS_PROMETHEUS}",
+              "format": "none",
+              "gauge": {
+                "maxValue": 100,
+                "minValue": 0,
+                "show": false,
+                "thresholdLabels": false,
+                "thresholdMarkers": true
+              },
+              "id": 6,
+              "interval": null,
+              "links": [],
+              "mappingType": 1,
+              "mappingTypes": [
+                {
+                  "name": "value to text",
+                  "value": 1
+                },
+                {
+                  "name": "range to text",
+                  "value": 2
+                }
+              ],
+              "maxDataPoints": 100,
+              "nullPointMode": "connected",
+              "nullText": null,
+              "postfix": "",
+              "postfixFontSize": "50%",
+              "prefix": "",
+              "prefixFontSize": "50%",
+              "rangeMaps": [
+                {
+                  "from": "null",
+                  "text": "N/A",
+                  "to": "null"
+                }
+              ],
+              "span": 4,
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": false,
+                "lineColor": "rgb(31, 120, 193)",
+                "show": true
+              },
+              "targets": [
+                {
+                  "expr": "count(kube_pod_container_status_ready{namespace=\"default\"} == 1)",
+                  "intervalFactor": 2,
+                  "refId": "A",
+                  "step": 60
+                }
+              ],
+              "thresholds": "",
+              "title": "Pods: Running",
+              "type": "singlestat",
+              "valueFontSize": "80%",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ],
+              "valueName": "avg"
+            },
+            {
+              "cacheTimeout": null,
+              "colorBackground": false,
+              "colorValue": false,
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "datasource": "${DS_PROMETHEUS}",
+              "format": "none",
+              "gauge": {
+                "maxValue": 100,
+                "minValue": 0,
+                "show": false,
+                "thresholdLabels": false,
+                "thresholdMarkers": true
+              },
+              "id": 7,
+              "interval": null,
+              "links": [],
+              "mappingType": 1,
+              "mappingTypes": [
+                {
+                  "name": "value to text",
+                  "value": 1
+                },
+                {
+                  "name": "range to text",
+                  "value": 2
+                }
+              ],
+              "maxDataPoints": 100,
+              "nullPointMode": "connected",
+              "nullText": null,
+              "postfix": "",
+              "postfixFontSize": "50%",
+              "prefix": "",
+              "prefixFontSize": "50%",
+              "rangeMaps": [
+                {
+                  "from": "null",
+                  "text": "N/A",
+                  "to": "null"
+                }
+              ],
+              "span": 4,
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": false,
+                "lineColor": "rgb(31, 120, 193)",
+                "show": true
+              },
+              "targets": [
+                {
+                  "expr": "count(kube_pod_container_status_waiting{namespace=\"default\"} == 1)",
+                  "intervalFactor": 2,
+                  "refId": "A",
+                  "step": 60
+                }
+              ],
+              "thresholds": "",
+              "timeFrom": null,
+              "title": "Pods: Crashing or Waiting",
+              "type": "singlestat",
+              "valueFontSize": "80%",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ],
+              "valueName": "current"
+            },
+            {
+              "aliasColors": {},
+              "bars": false,
+              "datasource": "${DS_PROMETHEUS}",
+              "fill": 1,
+              "id": 8,
+              "legend": {
+                "alignAsTable": true,
+                "avg": false,
+                "current": true,
+                "max": false,
+                "min": false,
+                "rightSide": true,
+                "show": true,
+                "total": false,
+                "values": true
+              },
+              "lines": true,
+              "linewidth": 1,
+              "links": [],
+              "nullPointMode": "null",
+              "percentage": false,
+              "pointradius": 5,
+              "points": false,
+              "renderer": "flot",
+              "seriesOverrides": [],
+              "span": 12,
+              "stack": false,
+              "steppedLine": false,
+              "targets": [
+                {
+                  "expr": "kube_pod_container_status_restarts{namespace=\"default\"} >= 1",
+                  "intervalFactor": 2,
+                  "legendFormat": "{{ pod }}",
+                  "refId": "A",
+                  "step": 4
+                }
+              ],
+              "thresholds": [],
+              "timeFrom": null,
+              "timeShift": null,
+              "title": "Pods: Restarts",
+              "tooltip": {
+                "shared": true,
+                "sort": 2,
+                "value_type": "individual"
+              },
+              "type": "graph",
+              "xaxis": {
+                "mode": "time",
+                "name": null,
+                "show": true,
+                "values": []
+              },
+              "yaxes": [
+                {
+                  "format": "short",
+                  "label": null,
+                  "logBase": 1,
+                  "max": null,
+                  "min": null,
+                  "show": true
+                },
+                {
+                  "format": "short",
+                  "label": null,
+                  "logBase": 1,
+                  "max": null,
+                  "min": null,
+                  "show": true
+                }
+              ]
+            },
+            {
+              "columns": [
+                {
+                  "text": "Avg",
+                  "value": "avg"
+                }
+              ],
+              "datasource": "${DS_PROMETHEUS}",
+              "filterNull": true,
+              "fontSize": "120%",
+              "hideTimeOverride": false,
+              "id": 4,
+              "links": [],
+              "pageSize": null,
+              "scroll": true,
+              "showHeader": true,
+              "sort": {
+                "col": 0,
+                "desc": true
+              },
+              "span": 12,
+              "styles": [],
+              "targets": [
+                {
+                  "expr": "kube_deployment_status_replicas_available{namespace=\"default\"} == 0",
+                  "intervalFactor": 2,
+                  "legendFormat": "{{ deployment }}",
+                  "refId": "A",
+                  "step": 4
+                }
+              ],
+              "timeFrom": null,
+              "title": "Deployments: Unavailable",
+              "transform": "timeseries_aggregations",
+              "type": "table"
+            }
+          ],
+          "repeat": null,
+          "repeatIteration": null,
+          "repeatRowId": null,
+          "showTitle": false,
+          "title": "Dashboard Row",
+          "titleSize": "h6"
+        }
+      ],
+      "schemaVersion": 14,
+      "style": "dark",
+      "tags": [],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "timepicker": {
+        "refresh_intervals": [
+          "5s",
+          "10s",
+          "30s",
+          "1m",
+          "5m",
+          "15m",
+          "30m",
+          "1h",
+          "2h",
+          "1d"
+        ],
+        "time_options": [
+          "5m",
+          "15m",
+          "1h",
+          "6h",
+          "12h",
+          "24h",
+          "2d",
+          "7d",
+          "30d"
+        ]
+      },
+      "timezone": "browser",
+      "title": "Deployment Dashboard",
+      "version": 4
+    }
 ---
 apiVersion: batch/v1
 kind: Job

@@ -2844,7 +2844,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "kube_pod_container_status_restarts{namespace=\"default\"} >= 1",
+                  "expr": "kube_pod_container_status_restarts_total{namespace=\"default\"} >= 1",
                   "intervalFactor": 2,
                   "legendFormat": "{{ pod }}",
                   "refId": "A",

@@ -3630,20 +3630,3 @@ spec:
   selector:
     app: prometheus
     component: core
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----

@@ -1,0 +1,166 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: prometheus
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus-k8s
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-templates
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: alertmanager
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: grafana-core
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-import-dashboards
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grafana-import-dashboards
+---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: grafana
+#   namespace: monitoring
+# spec:
+#   rules:
+#   - host: <yourchoice>.<cluster-id>.k8s.gigantic.io
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#          serviceName: grafana
+#          servicePort: 3000
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-core
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: io1-retain-us-east-1a
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prometheus-volumeclaim
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus-core
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-state-metrics
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: kube-state-metrics
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-state-metrics
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-state-metrics
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: node-directory-size-metrics
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: prometheus-node-exporter
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-node-exporter
+---
+apiVersion: v1
+metadata:
+  name: prometheus-rules
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---

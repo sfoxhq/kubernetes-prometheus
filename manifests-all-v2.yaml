@@ -3272,6 +3272,65 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: prometheus-core
+  namespace: monitoring
+  labels:
+    app: prometheus
+    component: core
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: prometheus-main
+      labels:
+        app: prometheus
+        component: core
+    spec:
+      serviceAccountName: prometheus-k8s
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.6.1
+        # set max ram relative to 2/3 of a t2.medium's 4gb ram (specified in bytes)
+        # adjust this value depending on the node's ram
+        args:
+          - '--config.file=/etc/prometheus/prometheus.yaml'
+        ports:
+        - name: webui
+          containerPort: 9090
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500M
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus
+        - name: rules-volume
+          mountPath: /etc/prometheus-rules
+        - name: data-volume
+          mountPath: /prometheus/data
+      volumes:
+      - name: config-volume
+        configMap:
+          name: prometheus-core
+      - name: rules-volume
+        configMap:
+          name: prometheus-rules
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: prometheus-volumeclaim
+      tolerations:
+      - key: monitoring
+        operator: Equal
+        value: prometheus
+        effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kops.k8s.io/instancegroup
+                operator: In
+                values:
+                - "monitoring"
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

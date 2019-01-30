@@ -30,6 +30,8 @@ Ensure the instance group is created, then ensure `nodeLabels` and `taints` prop
 conform to the example per cluster.
 
 ## Quick start
+> NOTE: quick start will deploy `prometheus:v1.7.0` and `grafana:4.2.0`
+> UPDATE: deploy the manifests in folder `manifests-v2` until this repo has been fully updated
 
 To quickly start all the things just do this:
 ```bash

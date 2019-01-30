@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prometheus-volumeclaim
+  namespace: monitoring
+  annotations:
+    volume.beta.kubernetes.io/storage-class: io1-retain-us-east-1a
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi

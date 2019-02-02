@@ -57,6 +57,13 @@ spec:
         volumeMounts:
         - name: grafana-persistent-storage
           mountPath: /var/lib/grafana
+        - name: grafana-piechart-panel
+          mountPath: /var/lib/grafana/plugins/grafana-piechart-panel
       volumes:
       - name: grafana-persistent-storage
         emptyDir: {}
+      - name: grafana-piechart-panel
+        gitRepo:
+          repository: https://github.com/grafana/piechart-panel.git
+          revision: master
+          directory: .

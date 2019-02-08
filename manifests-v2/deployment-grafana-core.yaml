@@ -67,3 +67,17 @@ spec:
           repository: https://github.com/grafana/piechart-panel.git
           revision: master
           directory: .
+      tolerations:
+      - key: monitoring
+        operator: Equal
+        value: prometheus
+        effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kops.k8s.io/instancegroup
+                operator: In
+                values:
+                - "monitoring"

@@ -31,20 +31,10 @@ conform to the example per cluster.
 
 ## Quick start
 
-To quickly start all the things using `prometheus:v1.7.0` and `grafana:4.2.0` just do this:
-```bash
-kubectl apply \
-  --filename https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests-all.yaml
-```
-> NOTE: deprecated. use the newer command below
-
-
 To quickly start all the things using `prometheus:v2.6.1` and `grafana:5.4.3` just do this:
 ```bash
-kubectl apply \
-  --filename https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests-all-v2.yaml
+kubectl apply --filename manifests-all.yaml
 ```
-
 
 This will create the namespace `monitoring` and bring up all components in there.
 

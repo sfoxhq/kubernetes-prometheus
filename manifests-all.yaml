@@ -4225,11 +4225,12 @@ spec:
         component: core
     spec:
       serviceAccountName: prometheus-k8s
+      # dockerfile runs as `nobody`, but filesystem directories are owned by root (UID 0)
+      securityContext:
+        runAsUser: 0
       containers:
       - name: prometheus
-        image: prom/prometheus:v2.6.1
-        # set max ram relative to 2/3 of a t2.medium's 4gb ram (specified in bytes)
-        # adjust this value depending on the node's ram
+        image: prom/prometheus:v2.7.2
         args:
           - '--config.file=/etc/prometheus/prometheus.yaml'
         ports:
